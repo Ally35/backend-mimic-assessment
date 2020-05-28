@@ -19,47 +19,39 @@ You can try adding in line breaks around 70 columns so the output looks
 better.
 """
 
-__author__ = "???"
+__author__ = "Ally w/help from Kenzie modules&demos, Google Python Course, Udemy Python Course"
 
 import random
 import sys
 
 
 def create_mimic_dict(filename):
-    """Returns a dict mapping each word to a list of words which follow it.
-    For example:
-        Input: "I am a software developer, and I don't care who knows"
-        Output:
-            {
-                "" : ["I"],
-                "I" : ["am", "don't"],
-                "am": ["a"],
-                "a": ["software"],
-                "software" : ["developer,"],
-                "developer," : ["and"],
-                "and" : ["I"],
-                "don't" : ["care"],
-                "care" : ["who"],
-                "who" : ["knows"]
-            }
-    """
-    # +++your code here+++
-    pass
+  """Returns mimic dict mapping each word to list of words which follow it."""
+  mimic_dict = {}
+  f = open(filename, 'r')
+  text = f.read()
+  f.close()
+  words = text.split()
+  prev = ''
+  for word in words:
+    if not prev in mimic_dict:
+      mimic_dict[prev] = [word]
+    else:
+      mimic_dict[prev].append(word)
+    prev = word
+  return mimic_dict
 
 
-def print_mimic(mimic_dict, start_word):
-    """Given a previously created mimic_dict and start_word,
-    prints 200 random words from mimic_dict as follows:
-        - Print the start_word
-        - Look up the start_word in your mimic_dict and get its next-list
-        - Randomly select a new word from the next-list
-        - Repeat this process 200 times
-    """
-    # +++your code here+++
-    pass
+def print_mimic(mimic_dict, word):
+  """Given mimic dict and start word, prints 200 random words."""
+  for unused_i in range(200):
+    print word,
+    nexts = mimic_dict.get(word)         
+    if not nexts:
+      nexts = mimic_dict['']  
+    word = random.choice(nexts)
+ 
 
-
-# Provided main(), calls mimic_dict() and print_mimic()
 def main():
     if len(sys.argv) != 2:
         print('usage: python mimic.py file-to-read')
